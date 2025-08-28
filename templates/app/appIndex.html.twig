@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tab Title 1{% endblock %}
+{% block body %}
+	<h1>App Index1</h1>
+	<p>This is the app index page.</p>
+	<a href="{{ path('producto_index') }}">Go to Producto Index path</a> 
+	<p>Usa el name dado en el controller, no el Path. Así se puede actualizar el path en el controler y acá no cambia.</p>
+	<br>
+	<a href="{{ url('producto_index') }}">Go to Producto Index URL</a>
+{% endblock %}

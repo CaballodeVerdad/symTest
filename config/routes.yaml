@@ -3,6 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-index:
+# index:
+#   path: /
+#   controller: App\Controller\DefaultController::index
+app_index:
   path: /
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\AppController::appIndex
