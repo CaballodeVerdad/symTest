@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\ProductoRepository;
 use App\Entity\Producto;
 use App\Form\ProductoType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class ProductoController extends AbstractController
 {
@@ -42,12 +44,12 @@ final class ProductoController extends AbstractController
 		//multiples columnas
 		$product = $productoRepository->findOneBy(['id' => $id]);
 		dd($product);
-		if (!$product) {
-			throw $this->createNotFoundException('El producto con id ' . $id . ' no existe');
-		}
-		return $this->render('producto/show.html.twig', [
-			'product' => $product,
-		]);
+		// if (!$product) {
+		// 	throw $this->createNotFoundException('El producto con id ' . $id . ' no existe');
+		// }
+		// return $this->render('producto/show.html.twig', [
+		// 	'product' => $product,
+		// ]);
 	}
 
 	// opcion mejor
@@ -63,13 +65,46 @@ final class ProductoController extends AbstractController
 	}
 
 	#[Route('/producto/nuevo', name: 'producto_nuevo')]
-	public function new(): Response
+	// Se agrega el objeto Request como argumento para cuando se envía el "save"
+	public function new(Request $request, EntityManagerInterface $manager): Response
 	{
-		$form = $this->createForm(ProductoType::class);
+		$product = new Producto(); // por si se creará uno nuevo
+		// Crear form desde symTest\src\Form\ProductoType.php
+		$form = $this->createForm(ProductoType::class, $product);
+
+
+		// Como form no tiene action, se envía a la misma URL
+		// Por defecto, el método es POST
+		// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		// 		// ...
+		// }
+		// Pero en symfony la data viene en un objeto Request
+
+		$form->handleRequest($request);
+
+		// El isValid usa los Assert del entity (Producto.php)
+		// form está integrado con el validator
+		if ($form->isSubmitted()){
+			echo $form->isValid();
+		}
+		if ($form->isSubmitted() && $form->isValid()) {
+			// Obtener los datos del form como un objeto Producto
+			// $form->getData(); // Lo trae como objeto entity
+			$aData = $request->request->all(); // Lo trae como array
+			$manager->persist($product);
+			$manager->flush();
+			// usa la sessión para guardar mensajes entre requests
+			$this->addFlash('notice', 'Producto creado con éxito!');
+			return $this->redirectToRoute(
+				'producto_mostrar',
+				['id' => $product->getId()]
+			);
+		}
+
 		return $this->render('producto/new.html.twig', [
-			'form' => $form->createView(),
+			'form' => $form,
+			// 'form' => $form->createView(),
 		]);
 	}
-
-
 }
+
