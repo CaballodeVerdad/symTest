@@ -17,4 +17,34 @@
         <li>Your template at <code>D:/Desarrollo UC/symTest/templates/producto/index.html.twig</code></li>
     </ul>
 </div>
+
+<div>
+	<h2>Lista de Productos</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Descripcion</th>
+				<th>Size</th>
+				<th>Precio</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in products %}
+			<tr>
+				<td>{{ product.id }}</td>
+				<td>{{ product.name }}</td>
+				<td>{{ product.descripcion }}</td>
+				<td>{{ product.size }}</td>
+				<td>{{ product.precio }}</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td colspan="6">No hay productos disponibles.</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}
