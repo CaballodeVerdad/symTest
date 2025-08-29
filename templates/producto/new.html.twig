@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Producto{% endblock %}
+
+{% block body %}
+
+<h1>Crear Nuevo Producto</h1>
+
+{{ form(form) }}
+
+{# También se puede renderear el form por parte, para mayor control #}
+{# {{ form_start(form) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.descripcion) }}
+	{{ form_row(form.size) }}
+	{{ form_row(form.precio) }}
+	{{ form_row(form.save, {'label': 'Crear Producto'}) }}
+{{ form_end(form) }} #}
+{% endblock %}

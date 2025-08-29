@@ -34,7 +34,12 @@
 			{% for product in products %}
 			<tr>
 				<td>{{ product.id }}</td>
-				<td>{{ product.name }}</td>
+				<td>
+					{# Esto irá a C:\Symfony\symTest\src\Controller\ProductoController.php #}
+					<a href="{{ path('producto_mostrar', {'id': product.id}) }}">
+						{{ product.name }}
+					</a>
+				</td>
 				<td>{{ product.descripcion }}</td>
 				<td>{{ product.size }}</td>
 				<td>{{ product.precio }}</td>
@@ -47,4 +52,6 @@
 		</tbody>
 	</table>
 </div>
+{# Nuevo producto #}
+<a href="{{ path('producto_nuevo') }}">Crear nuevo producto</a>
 {% endblock %}
