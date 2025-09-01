@@ -8,25 +8,46 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 		{% block stylesheets %}
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 		{% block javascripts %}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
 			{{ encore_entry_script_tags('app') }}
+
 		{% endblock %}
 	</head>
 	<body>
-		{% for message in app.flashes('notice') %}
+		{# {% for message in app.flashes('notice') %}
 			<div class="notice">
 				{{ message }}
 			</div>
-		{% endfor %}
+		{% endfor %} #}
 
-		{% block body %}
-		{% endblock %}
+		<main class="my-24">
+            <div class="loader" id="loader"></div>
+            <div class="container-lg min-60-vh">
+                {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-{{ flash_message.alert|default('danger') }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
+                        </button>
+                        <strong>{{ flash_message.title }}</strong> {{ flash_message.message|raw }}
+                    </div>
+                {% endfor %}
+                {% for label, messages in app.flashes %}
+                    <div class="alert alert-{{ label }} alert-dismissible fade show mt-16" role="alert">
+                        {% for message in messages %}
+                            {{ message|raw }}
+                        {% endfor %}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+              
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
 	</body>
 </html>

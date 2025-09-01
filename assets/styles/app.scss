@@ -1,0 +1,129 @@
+// Bootstrap SCSS
+@use 'bootstrap.scss' as *;
+
+// Custom Styles
+@use 'general.scss' as *;
+
+// DataTables CSS
+@import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+@import '~datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+
+// UC Kit Digital
+@import '~@digitaluc/uc-kitdigital/dist/css/uc-kitdigital.css';
+
+// Bootstrap Icons
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../imgs/loading.gif') 50% 50% no-repeat rgb(255, 255, 255);
+    background-size: 300px;
+    opacity: .85;
+}
+
+@keyframes pulseBackground {
+    0% {
+        background-color: #0176de;
+    }
+    50% {
+        background-color: #1f96ff;
+    }
+    100% {
+        background-color: #0176de;
+    }
+}
+
+.pulse-bg {
+    animation: pulseBackground 2s infinite;
+    transition: background-color 0.5s ease-in-out;
+}
+
+//colores de ingeniería
+$ing-black: #000000;
+$ing-black-alt: #363534;
+$ing-yellow: #FED802;
+$ing-yellow-alt: #E6C400;
+$ing-grey: #4a4a4a;
+
+.ing-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: $ing-yellow;
+    background-color: $ing-black;
+}
+
+.ing-tag:hover {
+    color: $ing-yellow;
+    background-color: $ing-black;
+}
+
+.rcer-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    background-color: #1daf91;
+}
+
+.rcer-tag:hover {
+    color: #fff;
+    background-color: #1daf91;
+}
+
+//botones de ingenieria
+.btn-ing {
+    color: White;
+    background-color: $ing-black;
+    border-color: $ing-black;
+}
+
+.btn-ing:hover {
+    color: $ing-black;
+    background-color: $ing-yellow;
+    border-color: $ing-yellow-alt;
+}
+
+.btn-ing2 {
+    color: $ing-black;
+    background-color: $ing-yellow;
+    border-color: $ing-yellow-alt;
+}
+
+.btn-ing2:hover {
+    color: White;
+    background-color: $ing-black;
+    border-color: $ing-black;
+}
+
+.bg-rcer {
+    background-color: #1daf91;
+}
+
+.form-check-input {
+    border: 1px solid $ing-grey;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.uc-navbar-dropdown_menu .dropdown_item--heading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}

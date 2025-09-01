@@ -23,6 +23,12 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('tables', './assets/js/tables.js')
 
+    .addStyleEntry('select2-style', 'select2/dist/css/select2.min.css') // Agrega la entrada para los estilos de Select2
+    .addEntry('select', './assets/js/select.js')
+
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -38,18 +44,15 @@ Encore
      * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
     .cleanupOutputBeforeBuild()
-
-    // Displays build status system notifications to the user
-    // .enableBuildNotifications()
-
+    .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
     // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-transform-class-properties');
+    })
 
     // enables and configure @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
@@ -58,7 +61,14 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
+
+    // Copy images to the build directory
+    .copyFiles({
+        from: './assets/imgs',
+        to: 'imgs/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg|gif|ico|svg|webp)$/
+    })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -71,7 +81,17 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
+
+    .configureDevServerOptions((options) => {
+        // Watch Twig & yaml files to force reload the browser on changes:
+        options.liveReload = true;
+        options.watchFiles = ["templates/**/*.twig", "src/**/*.php"];
+
+        // Disable watching the static public folder since it would force a live reload on any change,
+        // as the manifest.json file is always re-computed (but not required by the dev server):
+        options.static.watch = false;
+    });
 ;
 
 module.exports = Encore.getWebpackConfig();

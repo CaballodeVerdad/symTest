@@ -1,17 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscripciones index{% endblock %}
-
-{% block stylesheets %}
-    {{ encore_entry_link_tags('tables') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ encore_entry_script_tags('tables') }}
-{% endblock %}
+{% block title %}Inscripciones index Tab{% endblock %}
 
 {% block body %}
-    <h1>Inscripciones index</h1>
+    <h1>Inscripciones index 1</h1>
 
     {% set columns = [
         { 'property': 'id', 'label': 'ID' },
@@ -34,16 +26,16 @@
         }
     ] %}
 
-
-	{# log inscripciones #}
-	{{ dump(inscripciones) }}
-
     {% include 'components/data-table.html.twig' with {
         'entities': inscripciones,
         'columns': columns,
         'actions': actions,
         'customClass': 'datatable-basic'
     } %}
-
-    <a href="{{ path('app_inscripciones_new') }}" class="btn btn-primary">Crear nueva inscripción</a>
+	<br>
+	
+	
+    <a href="{{ path('app_inscripciones_new') }}" class="btn btn-primary">
+		Crear nueva inscripción
+	</a>
 {% endblock %}
