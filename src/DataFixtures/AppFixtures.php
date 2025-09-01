@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Inscripciones;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Producto;
@@ -40,6 +41,12 @@ class AppFixtures extends Fixture
 		$alumno->setNroAlumno(123456);
 		$alumno->setPrograma(40023);
 		$manager->persist($alumno);
+
+		// add inscripcion
+		$inscripcion = new Inscripciones();
+		$inscripcion->setIdAlumno(1);
+		$inscripcion->setIdExamen(1);
+		$manager->persist($inscripcion);
 
 		//actually load them to the DB
         $manager->flush();

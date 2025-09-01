@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Inscripciones{% endblock %}
+
+{% block body %}
+    <h1>Create new Inscripciones</h1>
+
+    {{ include('inscripciones/_form.html.twig') }}
+
+    <a href="{{ path('app_inscripciones_index') }}">back to list</a>
+{% endblock %}

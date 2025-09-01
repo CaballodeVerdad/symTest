@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscripciones{% endblock %}
+
+{% block body %}
+    <h1>Inscripciones</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inscripcione.id }}</td>
+            </tr>
+            <tr>
+                <th>Id_alumno</th>
+                <td>{{ inscripcione.idAlumno }}</td>
+            </tr>
+            <tr>
+                <th>Id_examen</th>
+                <td>{{ inscripcione.idExamen }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_inscripciones_index') }}">back to list</a>
+
+    <a href="{{ path('app_inscripciones_edit', {'id': inscripcione.id}) }}">edit</a>
+
+    {{ include('inscripciones/_delete_form.html.twig') }}
+{% endblock %}
