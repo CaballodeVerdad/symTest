@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Producto;
+use App\Entity\Examen;
+use App\Entity\Alumno;
 
 class AppFixtures extends Fixture
 {
@@ -23,6 +25,21 @@ class AppFixtures extends Fixture
 		$product->setSize(38);
 		$product->setPrecio(29);
 		$manager->persist($product);
+
+		// add examen
+		$examen = new Examen();
+		$examen->setAno(2026);
+		$examen->setMes(12);
+		$examen->setPeriodo('1');
+		$examen->setNombreLegible('Examen Final de Matemáticas 2026');
+		$manager->persist($examen);
+
+		// add alumno
+		$alumno = new Alumno();
+		$alumno->setName('Juan Pérez');
+		$alumno->setNroAlumno(123456);
+		$alumno->setPrograma(40023);
+		$manager->persist($alumno);
 
 		//actually load them to the DB
         $manager->flush();

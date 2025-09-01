@@ -11,5 +11,15 @@
 	<li><strong>Size:</strong> {{ product.size }}</li>
 	<li><strong>Precio:</strong> {{ product.precio }}</li>
 </ul>
-<a href="{{ path('producto_index') }}">Back to list</a>
+<a href="{{ path('producto_editar', {'id': product.id}) }}">
+	<button>Editar Producto</button>
+</a>
+<br>
+<a href="{{ path('producto_borrar', {'id': product.id}) }}">
+	<button>Borrar Producto</button>
+<br>
+<a href="{{ path('producto_index') }}">
+	<button>Volver a la lista</button>
+</a>
+<br>
 {% endblock %}

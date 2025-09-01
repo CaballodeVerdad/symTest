@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>¿Seguro que desea borrar el producto {{ id }}?</h1>
+<form 
+	method="post" 
+	action="{{ path('producto_borrar', {'id': id}) }}"  {# Esto es innecesario porque es el mismo que el "actual" #}
+	onsubmit="return confirm('¿Seguro que desea borrar este producto?');"
+	>
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ id) }}">
+	<button class="btn">Sí, borrar</button>
+	<a href="{{ path('producto_index') }}">
+		<button type="button" class="btn">No, volver</button>
+	</a>
+</form>
+{% endblock %}
+{# <form method="post">
+	<button>Sí, borrar</button>
+	<a href="{{ path('producto_index') }}">
+		<button type="button">No, volver</button>
+	</a>
+</form>
+{% endblock %} #}

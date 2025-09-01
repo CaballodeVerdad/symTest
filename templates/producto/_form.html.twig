@@ -1,0 +1,21 @@
+{# good practic: comienza con _form porque no se corresponde con un método en el controlador #}
+
+
+
+{# se puede renderear el form por parte, para mayor control #}
+{{ form_start(form) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.descripcion) }}
+	{{ form_row(form.size) }}
+	{{ form_row(form.precio) }}
+	{{ form_row(form.save, {'label': '+ Guardar'}) }} {# Sobreescribe lo de ProductoType #}
+{{ form_end(form) }}
+
+{# También se puede renderear el form completo automáticamente #}
+{# {{ form(form) }} #}
+
+
+<a href="{{ path('producto_index') }}">
+	<button>Volver a la lista</button>
+</a>
+<br>

@@ -22,10 +22,6 @@ final class ProductoController extends AbstractController
 
 		// dd($products); // dump and die
 
-		echo '<pre><h1>Lista de Productos</h1>';
-		// print_r($products); // print and continue
-		echo '</pre>';
-
 		return $this->render('producto/index.html.twig', [
 			'controller_name' => 'ProductoController',
 			'products' => $products,
@@ -84,7 +80,7 @@ final class ProductoController extends AbstractController
 
 		// El isValid usa los Assert del entity (Producto.php)
 		// form está integrado con el validator
-		if ($form->isSubmitted()){
+		if ($form->isSubmitted()) {
 			echo $form->isValid();
 		}
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -106,5 +102,60 @@ final class ProductoController extends AbstractController
 			// 'form' => $form->createView(),
 		]);
 	}
+
+	//edit
+	#[Route('/producto/editar/{id<\d+>}', name: 'producto_editar')]
+	public function edit(Producto $producto, Request $request, EntityManagerInterface $manager): Response
+	{
+		// No se necesita buscar el producto, ya que es inyectado automaticamente en la variable $producto
+
+		// Crear form desde symTest\src\Form\ProductoType.php
+		$form = $this->createForm(ProductoType::class, $producto);
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+			// $manager->persist($producto); // No es necesario, el objeto ya existe en DB
+			$manager->flush();
+			// usa la sessión para guardar mensajes entre requests
+			$this->addFlash('notice', 'Producto editado con éxito!');
+			return $this->redirectToRoute(
+				'producto_mostrar',
+				['id' => $producto->getId()]
+			);
+		}
+		return $this->render('producto/edit.html.twig', [
+			'form' => $form,
+		]);
+	}
+
+	//delete
+	#[Route('/producto/borrar_old/{id<\d+>}', name: 'producto_borrar_old')]
+	public function deleteOld(Producto $producto, EntityManagerInterface $manager): Response
+	{
+		// No se necesita buscar el producto, ya que es inyectado automaticamente en la variable $producto
+		$manager->remove($producto);
+		$manager->flush();
+		// usa la sessión para guardar mensajes entre requests
+		$this->addFlash('notice', 'Producto borrado con éxito!');
+		return $this->redirectToRoute('producto_index');
+	}
+
+	#[Route('/producto/{id<\d+>}/borrar', name: 'producto_borrar')]
+	public function delete(Request $request, Producto $producto, EntityManagerInterface $manager): Response
+	{
+		if ($request->isMethod('POST')) { // si se envió el form de confirmación
+			$manager->remove($producto);
+			$manager->flush();
+			// usa la sessión para guardar mensajes entre requests
+			$this->addFlash('notice', 'Producto borrado con éxito!');
+			return $this->redirectToRoute('producto_index');
+		}
+		return $this->render('producto/delete.html.twig', [
+			// 'product' => $producto,
+			'id' => $producto->getId(),
+		]);
+	}
+
+
+
 }
 
